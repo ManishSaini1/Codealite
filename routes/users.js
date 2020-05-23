@@ -4,6 +4,8 @@ const userController= require('../controllers/users_controller');
 router.get('/profile',userController.profile);
 const postController= require('../controllers/users_post_controller');
 router.get('/post', postController.post);
+const profileController=require('../controllers/user_profile_controller');
+router.get('/user_profile', profileController.user_profile);
 module.exports=router; 
 //const app=express();
 // const port=8000;
