@@ -6,13 +6,8 @@ const postController= require('../controllers/users_post_controller');
 router.get('/post', postController.post);
 const profileController=require('../controllers/user_profile_controller');
 router.get('/user_profile', profileController.user_profile);
+// log in 
+router.get('/sign-in',userController.login );
+router.get('/sign-up', userController.signup);
 module.exports=router; 
-//const app=express();
-// const port=8000;
-// app.listen(port, function(error)
-// {
-//     if(error)
-//     {
-//         console.log(`Error in users route ${port}`);
-//     }
-// });
+ 

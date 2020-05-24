@@ -3,6 +3,7 @@ const app=express();
 const port=8000;
 //let ejs=require('ejs');
 const expressLayout= require('express-ejs-layouts');
+const db=require('./config/mongoose');
 app.use(express.static('./assets'));
 app.use(expressLayout);
 app.set('layout extractStyles' ,true);
