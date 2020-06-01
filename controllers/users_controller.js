@@ -7,12 +7,20 @@ module.exports.profile= function(req, res)
 // L O G   I N
 module.exports.login=function(req, res)
 {
+    if(req.isAuthenticated())
+    {
+        return res.render('user_profile');
+    }
     return res.render('login');
 }
   
 // S I G N    U P
 module.exports.signup= function(req, res)
 {
+    if(req.isAuthenticated())
+    {
+        return res.render('user_profile');
+    }
     return res.render('signup');
 }
 // get the sign u p data
@@ -30,6 +38,7 @@ module.exports.create =function(req, res)
         {
             console.log("*********************************************");
             console.log(req.body);
+    
             User.create(req.body, function(err, user)
             {
                 if(err){console.log("error in creating User While creating......."); return}
@@ -42,4 +51,13 @@ module.exports.create =function(req, res)
         }
         });
     
+}
+module.exports.createSession=function(req , res)
+{
+    return res.redirect('/');
+}
+module.exports.destroySession = function(req, res)
+{
+    req.logout();
+  return  res.redirect('/');
 }

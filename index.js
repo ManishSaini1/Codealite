@@ -5,6 +5,19 @@ const port=8000;
 //let ejs=require('ejs');
 const expressLayout= require('express-ejs-layouts');
 const db = require("./config/mongoose");
+const session=require('express-session');
+const passport= require('passport');
+const passportLocal= require('./config/passport-local-strategy');
+const MongoStore=require('connect-mongo')(session);
+const saasMiddleware= require('node-sass-middleware');
+app.use(saasMiddleware({
+    src: './assets/scss',
+     dest: './assets/css', 
+     debug: true,
+     outputStyle: 'extended',
+     prefix: '/css'   
+}));
+
 
 // for getting the data of psot request
 app.use(express.urlencoded());
@@ -15,13 +28,45 @@ app.use(express.static('./assets'));
 app.use(expressLayout);
 app.set('layout extractStyles' ,true);
 app.set('layout extractScripts' ,true);
- app.use('/', require('./routes'));
 
- const path=require('path');
+
+ //const path=require('path');
 // app.set('view engine', 'ejs');
  app.set('view engine', 'ejs');
  app.set('views', './views');
 // const path=require('path');
+
+// mongo store is used to store the session cookie
+app.use(session(
+    {
+        name:"codealite",
+        //TODO befor Deployment
+        secret:"blasomething",
+        saveUninitialized:true,
+        resave:true,
+        cookie:{
+            maxAge: (1000*60*10)
+        },
+        store: new MongoStore(
+            {
+                mongooseConnection  :db,
+                autoremove :'disabled'
+            },
+            function(error)
+            {
+                if(error)
+                {
+                    console.log("error in storing cookies in mongoo");
+                }
+                else{ console.log("successfully stored");
+            }
+            })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.setAuthenticatedUser);
+app.use('/', require('./routes'));
+
  
 // app.set('views', path.join(__dirname, 'views'));
 app.listen(port,function(error)
