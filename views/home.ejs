@@ -1,3 +1,21 @@
  
         <h1> Home Layout rendered</h1>
+        <section id="feedPosts">
+                <h4>Post </h4>
+                <% if(locals.user){%> 
+                <form action="post/create" method="POST">
+                <textarea name="content" id="" cols="30" rows="5" placeholder="Type here....."></textarea>
+                <input type="submit" value="Post">
+                </form>
+                <%} %>
+                <div id="post-display-container">
+                        <ul>
+                        <%  for(const i of posts) 
+                        { %>
+                                <p><li><%=i.content %></li>
+                                        <li><%=i.user.name%></li></p>
+                        <% } %>
+                        </ul>
+                </div>
+        </section>
    

@@ -1,7 +1,13 @@
+const Post= require('../models/post');
 module.exports.post=function(req, res)
 {
-    return res.render('users_post',
+    Post.create({
+        
+        content : req.body.content,
+        user: req.user._id
+    }, function(error, post)
     {
-        title: 'Users Post'
-    });
+        if(error){console.log("Error in creating task"); return}
+        return res.redirect('back');
+       });
 }

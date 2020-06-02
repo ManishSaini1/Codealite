@@ -4,7 +4,7 @@ module.exports.profile= function(req, res)
 {
     return res.end("<h1> At profile Section<h1>");
 }
-// L O G   I N
+// L O G   I 
 module.exports.login=function(req, res)
 {
     if(req.isAuthenticated())
