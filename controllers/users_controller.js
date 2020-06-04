@@ -9,9 +9,15 @@ module.exports.login=function(req, res)
 {
     if(req.isAuthenticated())
     {
-        return res.render('user_profile');
+        return res.render('user_profile',
+        {
+            title : "bbbbbbb...."
+        });
     }
-    return res.render('login');
+    return res.render('login',
+    {
+        title  :"aaaadnsdsd..."
+    });
 }
   
 // S I G N    U P
