@@ -4,36 +4,55 @@
                 <h4>Post </h4>
                 <% if(locals.user){%> 
                 <form action="post/create" method="POST">
-                <textarea name="content" id="" cols="30" rows="5" placeholder="Type here....."></textarea>
+                <textarea name="content" id="" cols="30" rows="5" placeholder="Type here....." required></textarea>
                 <input type="submit" value="Post">
                 </form>
                 <%} %>
                 <div id="post-display-container">
                         <ul>
-                                <li>
-                <%  for(const i of post) 
+                                
+                <%  for( i of post) 
                 { %>
-                        <p><%=i.content %>
+                        <li>
+                <p>
+                       <% if(locals.user && locals.user.id==i.user.id){%>
+                        <small><a href="/post/destroy/<%= i.id%>">X</a></small>
+                        <%}%>
+                        <%=i.content %>
                                 <br>
                                 <small>
                                 <%=i.user.name%>
                                 </small>
-                                <h1> <%=i.comments%></h1>
+                                <!-- <h1> <%=i.comments%></h1> -->
                         </p>
                         <div class="post-comments">
                                 <%if(locals.user){ %>
                                         <form action="/comments/create" method="POST">
-                                <input type="text" name="content" placeholder="Type here to Comment....">
+                <input type="text" name="content" placeholder="Type here to Comment...." required>
                                 
-                                <input type="hidden" name="post" value="<%=i._id%>">
-                                <input type="submit" value="Add Comment">
+                <input type="hidden" name="post" value="<%=i._id%>">
+                <input type="submit" value="Add Comment">
                                         </form>
 
                                         <% } %>
-                                        <div class="post-comments-list">
-                                              
-                                        </div>
-                        </div>
+                <div class="post-comments-list">
+                        <ul id="post-comments-<%= i._id%>">
+                        
+                        <%for (cmnt of i.comments){%>
+                        <p>
+                <% if((locals.user && locals.user.id==cmnt.user.id) || (locals.user && locals.user.id== i.user.id)){%>
+                        <small><a href="/comments/destroy/<%= cmnt.id%>">X</a></small>
+                        <%}%>
+                        <%=cmnt.content%>
+                        <br>
+                        <small>
+                                <%=cmnt.user.name%>
+                        </small>
+                        </p>
+                        <%}%>
+                        </ul>
+                </div>
+</div>
 
                 </li>
                 <% } %>
