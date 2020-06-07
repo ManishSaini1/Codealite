@@ -1,6 +1,7 @@
- 
-        <h1> Home Layout rendered</h1>
-        <section id="feedPosts">
+<link rel="stylesheet" href="/css/home.css">
+        <!-- <h1> Home Layout rendered</h1> -->
+        <div class="home-container">
+        <section class="feed-posts">
                 <h4>Post </h4>
                 <% if(locals.user){%> 
                 <form action="post/create" method="POST">
@@ -13,50 +14,17 @@
                                 
                 <%  for( i of post) 
                 { %>
-                        <li>
-                <p>
-                       <% if(locals.user && locals.user.id==i.user.id){%>
-                        <small><a href="/post/destroy/<%= i.id%>">X</a></small>
-                        <%}%>
-                        <%=i.content %>
-                                <br>
-                                <small>
-                                <%=i.user.name%>
-                                </small>
-                                <!-- <h1> <%=i.comments%></h1> -->
-                        </p>
-                        <div class="post-comments">
-                                <%if(locals.user){ %>
-                                        <form action="/comments/create" method="POST">
-                <input type="text" name="content" placeholder="Type here to Comment...." required>
-                                
-                <input type="hidden" name="post" value="<%=i._id%>">
-                <input type="submit" value="Add Comment">
-                                        </form>
-
-                                        <% } %>
-                <div class="post-comments-list">
-                        <ul id="post-comments-<%= i._id%>">
-                        
-                        <%for (cmnt of i.comments){%>
-                        <p>
-                <% if((locals.user && locals.user.id==cmnt.user.id) || (locals.user && locals.user.id== i.user.id)){%>
-                        <small><a href="/comments/destroy/<%= cmnt.id%>">X</a></small>
-                        <%}%>
-                        <%=cmnt.content%>
-                        <br>
-                        <small>
-                                <%=cmnt.user.name%>
-                        </small>
-                        </p>
-                        <%}%>
-                        </ul>
-                </div>
-</div>
-
-                </li>
+                     <%- include('_post') -%>
                 <% } %>
                 </ul>
         </div>
         </section>
-   
+        <section class="user-friends">
+                <h4>Friends</h4>
+                <% for( u of all_users){%>
+                        <p>
+                                <a href="users/profile/<%= u.id %>"><%=u.name%></a>
+                        </p>
+                        <%}%>
+        </section>
+   </div>

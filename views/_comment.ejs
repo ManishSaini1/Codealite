@@ -1,0 +1,12 @@
+<li>
+    <p>
+<% if((locals.user && locals.user.id==cmnt.user.id) || (locals.user && locals.user.id== i.user.id)){%>
+    <small><a href="/comments/destroy/<%= cmnt.id%>">X</a></small>
+    <%}%>
+    <%=cmnt.content%>
+    <br>
+    <small>
+            <%=cmnt.user.name%>
+    </small>
+    </p>
+</li>

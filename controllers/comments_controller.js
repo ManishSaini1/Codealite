@@ -32,12 +32,12 @@ module.exports.destroy= function(req, res)
     let postId=comment.post;
     // to allow the user to delete comment on his/her post
     let findPost;
-    console.log(" I AM here 111"  , postId);
+   // console.log(" I AM here 111"  , postId);
     Post.findById(postId, function(error, post)
     {
             findPost=post;
-             console.log(" I AM here and"  , findPost.user._id);
-             console.log(" I am here and user id is", req.user.id);
+            // console.log(" I AM here and"  , findPost.user._id);
+           //  console.log(" I am here and user id is", req.user.id);
              if((comment.user==req.user.id ) || findPost.user._id ==req.user.id)
              {
                  

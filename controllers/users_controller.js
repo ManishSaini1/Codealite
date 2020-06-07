@@ -2,7 +2,28 @@ const User= require('../models/user');
 //console.log(' i am here' ,  User.schema);
 module.exports.profile= function(req, res)
 {
-    return res.end("<h1> At profile Section<h1>");
+    User.findById(req.params.id, function(error, user)
+    {
+        return res.render("user_profile",
+        {
+            title : 'User Profile',
+            profile_user : user
+        });
+    });
+    
+}
+
+module.exports.update= function(req ,res)
+{
+    if(req.user.id == req.params.id)
+    {
+            User.findByIdAndUpdate(req.params.id,req.body, function(error, user)
+            {
+                return res.redirect('back');
+            });
+    }else{
+        return res.status(401).send("Unauthorized");
+    }
 }
 // L O G   I 
 module.exports.login=function(req, res)
