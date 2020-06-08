@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <%- style %>
-    <title>title</title>
 </head>
-<%- include('_header')-%>
+<body>
+    <% if(flash.success && flash.success.length > 0) {%>
+        <h5> <%= flash.success %> </h5>
+        <% } %>
+<%- include('_header'); %>
 
-<%- body -%>
+
+<main id="layout-main">
+    <%- body %>
+
+</main>
+
 <script type="text/javaScript" src="/js/script.js"></script>
-<%- include('_footer')-%>
+<%- include('_footer');%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 <%- script %>
+</body>
 </html>

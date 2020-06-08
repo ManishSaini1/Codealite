@@ -1,14 +1,20 @@
+body {
+  height: 100%;
+  border: 3px solid darkmagenta; }
+
 .home-container {
   display: flex;
+  border: 2px solid blueviolet;
   height: 100%; }
   .home-container .feed-posts {
     width: 80%;
     height: 100%;
     padding: 10px;
+    border: 3px solid indianred;
     background-color: pink; }
   .home-container .user-friends {
     width: 20%;
     height: 100%;
     padding: 10px;
-    border-left: 2px solid lightgrey;
+    border: 2px solid salmon;
     background-color: green; }

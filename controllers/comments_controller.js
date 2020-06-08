@@ -43,7 +43,7 @@ module.exports.destroy= function(req, res)
                  
      Post.findByIdAndUpdate(postId, {$pull: { comments :req.params.id }},function(error, post)
      {
-         return res.redirect('back');
+         return res.redirect('/');
      })  
       }
       else{ return res.redirect('back');}
