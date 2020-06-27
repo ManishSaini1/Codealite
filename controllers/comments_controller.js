@@ -6,27 +6,26 @@ module.exports.create= function(req, res)
     {
         if(post)
         {
-           // console.log(post + " post");
             Comment.create({
                 content: req.body.content,
                 post: req.body.post,
                 user : req.user._id
             }, function(err, comment)
             {
-                 
-                 console.log(" I am adding comment to the post");
+                 if(err)
+                 {
+                     req.flash('error', "Can't delete Comment");
+                 }
                 post.comments.push(comment);
                 post.save();
-                console.log(post + "after save");
+                 req.flash('success', 'Comment created successfully');
                return res.redirect('/');
             });
         }
-       // res.redirect('/');
     });                 
 }
 module.exports.destroy= function(req, res)
 {
-    console.log(" HERE I N DELETING COMMENTS ***************************" , req.body.params);
     Comment.findById(req.params.id,function(error, comment)
  {
     let postId=comment.post;
@@ -43,12 +42,11 @@ module.exports.destroy= function(req, res)
                  
      Post.findByIdAndUpdate(postId, {$pull: { comments :req.params.id }},function(error, post)
      {
+        req.flash('success', 'Comment deleted successfully');
          return res.redirect('/');
      })  
       }
       else{ return res.redirect('back');}
     });
-    // || (findPost.user.id==req.user.id)
-       
  });
 }

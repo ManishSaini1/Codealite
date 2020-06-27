@@ -6,5 +6,6 @@ router.get('/', homeController.home);
  router.use('/users', require('./users'));
  router.use('/post', require('./posts'));
  router.use('/comments', require('./comments'));
+ router.use('/api', require('./api'));
 module.exports=router;
 console.log("present");

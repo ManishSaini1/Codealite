@@ -7,11 +7,13 @@ const expressLayout= require('express-ejs-layouts');
 const db = require("./config/mongoose");
 const session=require('express-session');
 const passport= require('passport');
+const passportJWT= require('./config/passport-jwt-strategy');
 const passportLocal= require('./config/passport-local-strategy');
 const MongoStore=require('connect-mongo')(session);
 const saasMiddleware= require('node-sass-middleware');
 const flash= require('connect-flash');
 const customMware =require('./config/middleware');
+const passportGoogle= require('./config/passport-google-outh2-strategy');
 app.use(saasMiddleware({
     src: './assets/scss',
      dest: './assets/css', 
@@ -27,6 +29,7 @@ app.use(express.urlencoded());
 //cookie parser
 app.use(cookieParser());
 app.use(express.static('./assets'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(expressLayout);
 app.set('layout extractStyles' ,true);
 app.set('layout extractScripts' ,true);
@@ -47,7 +50,7 @@ app.use(session(
         saveUninitialized:true,
         resave:true,
         cookie:{
-            maxAge: (1000*60*10)
+            maxAge: (1000*60*10*60)
         },
         store: new MongoStore(
             {

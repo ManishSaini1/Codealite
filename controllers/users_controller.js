@@ -1,4 +1,6 @@
 const User= require('../models/user');
+const path= require('path');
+const fs=require('fs');
 //console.log(' i am here' ,  User.schema);
 module.exports.profile= function(req, res)
 {
@@ -13,16 +15,43 @@ module.exports.profile= function(req, res)
     
 }
 
-module.exports.update= function(req ,res)
+module.exports.update=async function(req ,res)
 {
+    // if(req.user.id == req.params.id)
+    // {
+    //         User.findByIdAndUpdate(req.params.id,req.body, function(error, user)
+    //         {
+    //             return res.redirect('back');
+    //         });
+    // }else{
+    //     return res.status(401).send("Unauthorized");
+    // }
     if(req.user.id == req.params.id)
     {
-            User.findByIdAndUpdate(req.params.id,req.body, function(error, user)
+        try{
+            let user= await User.findById(req.params.id);
+            User.uploadAvatar(req, res, function(err)
             {
+                if(err){console.log('**Error  :'  ,err);}
+                user.name=req.body.name;
+                user.email=req.body.email;
+                if(req.file)
+                {
+                        if(user.avatar)
+                        {
+                            fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                        }
+                    req.flash('success', 'Profile Pic Updated');
+                    user.avatar = User.avatarPath  + '/'  + req.file.filename;
+                }
+                user.save();
                 return res.redirect('back');
-            });
-    }else{
-        return res.status(401).send("Unauthorized");
+            })
+        }
+        catch(error){
+                req.flash('error', error);
+                 return res.redirect('back');
+        }
     }
 }
 // L O G   I 
@@ -30,7 +59,7 @@ module.exports.login=function(req, res)
 {
     if(req.isAuthenticated())
     {
-        return res.render('user_profile',
+        return res.redirect('home',
         {
             title : "bbbbbbb...."
         });
