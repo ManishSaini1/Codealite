@@ -1,6 +1,7 @@
 const Comment=require('../models/comment');
 const Post= require('../models/post');
-module.exports.create= function(req, res)
+const commentMailer=require('../mailers/comments_mailer');
+module.exports.create= async function(req, res)
 {
     Post.findById(req.body.post, function(err, post)
     {
@@ -10,14 +11,17 @@ module.exports.create= function(req, res)
                 content: req.body.content,
                 post: req.body.post,
                 user : req.user._id
-            }, function(err, comment)
+            },async function(err, comment)
             {
                  if(err)
                  {
-                     req.flash('error', "Can't delete Comment");
+                     req.flash('error', "Can't create Comment");
                  }
+                 
                 post.comments.push(comment);
                 post.save();
+                let toComment=await comment.populate('user', 'name email').execPopulate();
+                commentMailer.newComment(toComment);
                  req.flash('success', 'Comment created successfully');
                return res.redirect('/');
             });

@@ -54,7 +54,7 @@ passport.use( new LocalStrategy({
      {
          if(req.isAuthenticated())
          {
-                            res.locals.user=req.user;
+             res.locals.user=req.user;
          }
          next();
      }
