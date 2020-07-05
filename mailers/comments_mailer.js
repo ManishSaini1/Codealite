@@ -16,7 +16,7 @@ exports.newComment=(comment)=>
     },(error, info)=>
     {
             if(error){console.log("error in publishing the comment", error); return}
-            console.log("Message commented", info);
+            // console.log("Message commented", info);
             return;
     });
 }

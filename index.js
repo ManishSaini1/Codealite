@@ -2,6 +2,7 @@ const express=require('express');
 const cookieParser=require('cookie-parser');
 const app=express();
 const port=8000;
+var kue = require('kue');
 //let ejs=require('ejs');
 const expressLayout= require('express-ejs-layouts');
 const db = require("./config/mongoose");
@@ -14,10 +15,11 @@ const saasMiddleware= require('node-sass-middleware');
 const flash= require('connect-flash');
 const customMware =require('./config/middleware');
 const passportGoogle= require('./config/passport-google-outh2-strategy');
+//marked debug false for now
 app.use(saasMiddleware({
     src: './assets/scss',
      dest: './assets/css', 
-     debug: true,
+     debug: false,
      outputStyle: 'extended',
      prefix: '/css'   
 }));
@@ -76,6 +78,8 @@ app.use('/', require('./routes'));
 
  
 // app.set('views', path.join(__dirname, 'views'));
+//kue.app.set('title', 'My Application');
+//kue.app.listen(3000);
 app.listen(port,function(error)
 {
        if(error)
