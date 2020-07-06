@@ -15,6 +15,8 @@ const saasMiddleware= require('node-sass-middleware');
 const flash= require('connect-flash');
 const customMware =require('./config/middleware');
 const passportGoogle= require('./config/passport-google-outh2-strategy');
+const cors=require('cors');
+app.use(cors());
 //marked debug false for now
 app.use(saasMiddleware({
     src: './assets/scss',
