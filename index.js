@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const port = 8000;
 var kue = require("kue");
+const env= require('./config/enviroment');
 //let ejs=require('ejs');
 const expressLayout = require("express-ejs-layouts");
 const db = require("./config/mongoose");
@@ -27,11 +28,12 @@ console.log("listenign the port 5000");
 //for unblocking the API calls
 app.use(cors());
 //marked debug false for now
+const path=require('path');
 app.use(
   saasMiddleware({
-    src: "./assets/scss",
-    dest: "./assets/css",
-    debug: false,
+    src: path.join(__dirname,env.asset_path, 'scss'),
+    dest: path.join(__dirname,env.asset_path, 'css'),
+    debug: true,
     outputStyle: "extended",
     prefix: "/css",
   })
@@ -42,7 +44,7 @@ app.use(express.urlencoded());
 
 //cookie parser
 app.use(cookieParser());
-app.use(express.static("./assets"));
+app.use(express.static(env.asset_path));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(expressLayout);
 app.set("layout extractStyles", true);
@@ -59,7 +61,7 @@ app.use(
   session({
     name: "codealite",
     //TODO befor Deployment
-    secret: "blasomething",
+    secret: env.session_cookie_key,
     saveUninitialized: true,
     resave: true,
     cookie: {

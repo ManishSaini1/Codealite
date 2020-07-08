@@ -6,8 +6,9 @@
 // {
 //         console.log("db is Succesfull Connnectec :: Mongo db");
 // });
+const env=require('../config/enviroment');
 const mongoose = require("mongoose");
-mongoose.connect('mongodb://127.0.0.1/major_project_development');
+mongoose.connect(`mongodb://127.0.0.1/${env.db}`);
 
 const db = mongoose.connection;
 
