@@ -1,6 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
+const logger= require('morgan');
+const gulp=require('gulp');
 const port = 8000;
 var kue = require("kue");
 const env= require('./config/enviroment');
@@ -29,6 +31,8 @@ console.log("listenign the port 5000");
 app.use(cors());
 //marked debug false for now
 const path=require('path');
+if(env.name=='development')
+{
 app.use(
   saasMiddleware({
     src: path.join(__dirname,env.asset_path, 'scss'),
@@ -38,6 +42,7 @@ app.use(
     prefix: "/css",
   })
 );
+}
 
 // for getting the data of psot request
 app.use(express.urlencoded());
@@ -46,6 +51,9 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(express.static(env.asset_path));
 app.use("/uploads", express.static(__dirname + "/uploads"));
+
+
+app.use(logger(env.morgan.mode,env.morgan.options));
 app.use(expressLayout);
 app.set("layout extractStyles", true);
 app.set("layout extractScripts", true);
