@@ -4,14 +4,14 @@ class ChatEngine{
         this.userEmail = userEmail;
         this.userName=userName;
 
-        this.socket = io.connect('http://localhost:5000');
+        this.socket = io.connect('http://54.80.189.190:5000');
 
         if (this.userEmail){
             this.connectionHandler();
         }
 
     }
-
+    
 
     connectionHandler(){
         let self = this;
