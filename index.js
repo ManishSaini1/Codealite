@@ -1,6 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
+require('./config/view-helper')(app);
+
 const logger= require('morgan');
 const gulp=require('gulp');
 const port = 8000;
